@@ -1,12 +1,15 @@
-# Dynamic BitTree
+# Dynamic BitTree (B+ Tree Implementation)
 
-Built for performance, this C++ dynamic bit vector uses a B+ Tree structure where nodes are constrained to 512 bits to ensure cache-friendly access. Pointer and variable compression via bit-shifting is used to fit the necessary indices into a single cache line, allowing for high-frequency modifications without reallocating large memory blocks.
+A C++ implementation of a dynamic bit vector utilizing a specialized B+ Tree structure. Every node is dynamically adjusted to maximize leaf storage and is strictly constrained to 512 bits for cache-line efficiency.
+
 ## Technical Architecture
 
-The core of this project is a modified B+ Tree optimized for bit manipulation:
-- Leaves: Each leaf acts as a pointer to bit-data blocks along with local metadata.
-- Internal Nodes: These nodes store indices and prefix sums, allowing the tree to act as a searchable index for bit positions and bit counts.
-- Efficiency: By using this structure, the project avoids linear shifts during insertion and deletion.
+The architecture is designed for high-performance bitstream modifications by minimizing memory overhead and cache misses:
+
+- Leaves: These store the raw values of the bitvector.
+- Internal Nodes: These contain pointers to lower-level nodes or leaves, alongside the variables necessary for indexing.
+- Cache Alignment: Every node utilizes exactly 512 bits. Pointers and metadata are compressed using bit-shifting to fit within this fixed size, maximizing the branching factor.
+- Efficiency: This structure allows for frequent bitstream changes without the need for reallocating large blocks of memory or performing linear shifts.
 
 ## Core API Reference
 
